@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
-import "./App.css";
+import React, { useRef, useState } from "react";
+import "leaflet";
+import "leaflet-editable";
 import {
   MapContainer,
   TileLayer,
@@ -7,9 +8,11 @@ import {
   Popup,
   Polyline,
 } from "react-leaflet";
-import * as L from "leaflet";
+import "./App.css";
+import { ReactLeafletEditable } from "react-leaflet-editable";
+// const ReactLeafletEditable = require("react-leaflet-editable");
 
-const multiPolyline: L.LatLngExpression[][] = [
+const multiPolyline = [
   [
     [51.5, -0.1],
     [51.5, -0.12],
@@ -22,32 +25,29 @@ const multiPolyline: L.LatLngExpression[][] = [
   ],
 ];
 
-function Square(props) {
-  const context = useLeafletContext();
+const App = () => {
+  const editRef = useRef();
+  const [map, setMap] = useState();
+  const editPolygon = () => {
+    editRef.current.startPolygon();
+  };
+  const whenMapCreated = (map) => {
+    setMap(map);
+  };
 
-  useEffect(() => {
-    const bounds = L.latLng(props.center).toBounds(props.size);
-    const square = new L.Rectangle(bounds);
-    const container = context.layerContainer || context.map;
-    container.addLayer(square);
-
-    return () => {
-      container.removeLayer(square);
-    };
-  });
-
-  return null;
-}
-
-function App() {
   return (
-    <div className="App">
+    <ReactLeafletEditable ref={editRef} map={map}>
       <MapContainer
+        whenCreated={whenMapCreated}
+        editable={true}
         center={[51.505, -0.09]}
         zoom={13}
         scrollWheelZoom={true}
         className="map"
       >
+        <button onClick={editPolygon} className="editable-btn">
+          polygon
+        </button>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -59,8 +59,8 @@ function App() {
           </Popup>
         </Marker>
       </MapContainer>
-    </div>
+    </ReactLeafletEditable>
   );
-}
+};
 
 export default App;
