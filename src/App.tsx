@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import {
   MapContainer,
@@ -7,9 +7,9 @@ import {
   Popup,
   Polyline,
 } from "react-leaflet";
-import { LatLngExpression } from "leaflet";
+import * as L from "leaflet";
 
-const multiPolyline: LatLngExpression[][] = [
+const multiPolyline: L.LatLngExpression[][] = [
   [
     [51.5, -0.1],
     [51.5, -0.12],
@@ -21,6 +21,23 @@ const multiPolyline: LatLngExpression[][] = [
     [51.52, -0.06],
   ],
 ];
+
+function Square(props) {
+  const context = useLeafletContext();
+
+  useEffect(() => {
+    const bounds = L.latLng(props.center).toBounds(props.size);
+    const square = new L.Rectangle(bounds);
+    const container = context.layerContainer || context.map;
+    container.addLayer(square);
+
+    return () => {
+      container.removeLayer(square);
+    };
+  });
+
+  return null;
+}
 
 function App() {
   return (
