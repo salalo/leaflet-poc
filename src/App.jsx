@@ -1,22 +1,10 @@
 import React, { useRef, useState } from "react";
 import "leaflet";
 import "leaflet-editable";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "./App.css";
 import ReactLeafletEditable from "react-leaflet-editable";
-
-// const multiPolyline = [
-//   [
-//     [51.5, -0.1],
-//     [51.5, -0.12],
-//     [51.52, -0.12],
-//   ],
-//   [
-//     [51.5, -0.05],
-//     [51.5, -0.06],
-//     [51.52, -0.06],
-//   ],
-// ];
+import data from "./data.json"
 
 const App = () => {
   const editRef = useRef();
@@ -36,11 +24,12 @@ const App = () => {
       <MapContainer
         whenCreated={whenMapCreated}
         editable={true}
-        center={[51.505, -0.09]}
-        zoom={19}
+        center={[45.371088, -75.702061]}
+        zoom={12}
         scrollWheelZoom={true}
         className="map"
       >
+        <GeoJSON attribution="&copy; credits due..." data={data} />
         <TileLayer
           maxZoom={25}
           maxNativeZoom={19}

@@ -40,6 +40,12 @@ function addPolyline() {
     maxMarkers: 20,
   };
 
+//   async function addGeoJson() {
+//     const response = await fetch("filepath/filename.geojson");
+//     const data = await response.json();
+//     L.geoJson(data).addTo(map);
+// }
+//   addGeoJson();
   var polyline = L.Polyline.PolylineEditor(coordinates, polylineOptions).addTo(
     map
   );
@@ -62,7 +68,7 @@ function addPolyline() {
           latLng.lat +
           "," +
           latLng.lng +
-          ")\n";
+          ")\n"
         +"\n";
       });
       pointsTextArea.innerHTML +=
