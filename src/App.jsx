@@ -37,11 +37,13 @@ const App = () => {
         whenCreated={whenMapCreated}
         editable={true}
         center={[51.505, -0.09]}
-        zoom={13}
+        zoom={19}
         scrollWheelZoom={true}
         className="map"
       >
         <TileLayer
+          maxZoom={25}
+          maxNativeZoom={19}
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
